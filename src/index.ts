@@ -27,8 +27,6 @@ type Messages = {
   installSkipped: string;
   yes: string;
   no: string;
-  codexModelPrompt: string;
-  codexModels: Array<{ value: 'gpt-4' | 'gpt-3.5-turbo' | 'claude-3-haiku-20240307' | 'claude-3-sonnet-20240229'; title: string; description?: string }>;
   apiKeyPrompt: string;
   apiKeyHint: string;
   apiKeyValidation: string;
@@ -52,8 +50,8 @@ const TRANSLATIONS: Record<Language, Messages> = {
     welcome: '🚀 Ready to wire CodeX or Claude Code to 月栖AI? Let\'s get your CLI in shape.',
     languagePrompt: 'Select the language for this setup wizard',
     languageChoices: [
-      { value: 'en', title: 'English (Default)' },
       { value: 'zh', title: '简体中文' },
+      { value: 'en', title: 'English (Default)' },
       { value: 'ja', title: '日本語' }
     ],
     cancel: 'Setup cancelled. Nothing was changed.',
@@ -72,13 +70,6 @@ const TRANSLATIONS: Record<Language, Messages> = {
     installSkipped: 'Skipped installation. We\'ll use the version already on your machine.',
     yes: 'Yes',
     no: 'No',
-    codexModelPrompt: 'Pick the default model to set in config.toml',
-    codexModels: [
-      { value: 'gpt-4', title: 'gpt-4 (latest, optimized for coding - recommended)' },
-      { value: 'gpt-3.5-turbo', title: 'gpt-3.5-turbo (general purpose)' },
-      { value: 'claude-3-haiku-20240307', title: 'claude-3-haiku-20240307 (fastest, economical)' },
-      { value: 'claude-3-sonnet-20240229', title: 'claude-3-sonnet-20240229 (balanced performance)' }
-    ],
     apiKeyPrompt: `Paste your 月栖AI API key (open ${API_KEY_URL} if you need to create one)`,
     apiKeyHint: 'Your API key is stored locally on this device only.',
     apiKeyValidation: 'Please enter a non-empty API key.',
@@ -90,14 +81,14 @@ const TRANSLATIONS: Record<Language, Messages> = {
     noBackupNeeded: (file) => `No existing file found at ${file}.`,
     configWritten: (file) => `Updated ${file}`,
     finished: (targetLabel) => `✅ All done! ${targetLabel} is now configured for 月栖AI.`,
-    docsHint: 'Tip: run `npx yqcode` anytime you want to switch setups again.'
+    docsHint: 'Tip: run `npx yueqiai` anytime you want to switch setups again.'
   },
   zh: {
     welcome: '🚀 开始把 CodeX 或 Claude Code 接入 月栖AI，一起完成配置吧。',
     languagePrompt: '请选择向导语言',
     languageChoices: [
-      { value: 'en', title: 'English (默认英语)' },
       { value: 'zh', title: '简体中文' },
+      { value: 'en', title: 'English (默认英语)' },
       { value: 'ja', title: '日本語 / 日语' }
     ],
     cancel: '已取消，文件未做任何修改。',
@@ -115,13 +106,6 @@ const TRANSLATIONS: Record<Language, Messages> = {
     installSkipped: '已跳过安装，将使用你当前的 CLI 版本。',
     yes: '是',
     no: '否',
-    codexModelPrompt: '请选择默认模型（写入 config.toml）',
-    codexModels: [
-      { value: 'gpt-4', title: 'gpt-4（最新，面向 CodeX 场景优化，推荐）' },
-      { value: 'gpt-3.5-turbo', title: 'gpt-3.5-turbo（通用模型）' },
-      { value: 'claude-3-haiku-20240307', title: 'claude-3-haiku-20240307（最快，经济实惠）' },
-      { value: 'claude-3-sonnet-20240229', title: 'claude-3-sonnet-20240229（平衡性能）' }
-    ],
     apiKeyPrompt: `请输入你的 月栖AI API Key（如需创建，请访问 ${API_KEY_URL}）`,
     apiKeyHint: '密钥只会保存在本机。',
     apiKeyValidation: 'API Key 不能为空。',
@@ -133,14 +117,14 @@ const TRANSLATIONS: Record<Language, Messages> = {
     noBackupNeeded: (file) => `未在 ${file} 发现历史文件。`,
     configWritten: (file) => `已更新 ${file}`,
     finished: (targetLabel) => `✅ 完成！${targetLabel} 已配置为使用 月栖AI。`,
-    docsHint: '提示：再次执行 `npx yqcode` 可以重新配置。'
+    docsHint: '提示：再次执行 `npx yueqiai` 可以重新配置。'
   },
   ja: {
     welcome: '🚀 CodeX または Claude Code を 月栖AI へ接続します。セットアップを始めましょう。',
     languagePrompt: 'ウィザードで使用する言語を選択してください',
     languageChoices: [
-      { value: 'en', title: 'English (デフォルト)' },
       { value: 'zh', title: '简体中文 / 中国語' },
+      { value: 'en', title: 'English (デフォルト)' },
       { value: 'ja', title: '日本語' }
     ],
     cancel: 'セットアップを中止しました。ファイルは変更されていません。',
@@ -158,13 +142,6 @@ const TRANSLATIONS: Record<Language, Messages> = {
     installSkipped: 'インストールをスキップしました。現在の CLI バージョンを使用します。',
     yes: 'はい',
     no: 'いいえ',
-    codexModelPrompt: 'config.toml に設定するデフォルトモデルを選択してください',
-    codexModels: [
-      { value: 'gpt-4', title: 'gpt-4（最新・コード向け最適化 推奨）' },
-      { value: 'gpt-3.5-turbo', title: 'gpt-3.5-turbo（汎用モデル）' },
-      { value: 'claude-3-haiku-20240307', title: 'claude-3-haiku-20240307（高速・経済的）' },
-      { value: 'claude-3-sonnet-20240229', title: 'claude-3-sonnet-20240229（バランス性能）' }
-    ],
     apiKeyPrompt: `月栖AI の API Key を入力してください（必要なら ${API_KEY_URL} で作成できます）`,
     apiKeyHint: 'キーはこの端末にのみ保存されます。',
     apiKeyValidation: 'API Key を入力してください。',
@@ -176,7 +153,7 @@ const TRANSLATIONS: Record<Language, Messages> = {
     noBackupNeeded: (file) => `${file} に既存ファイルはありませんでした。`,
     configWritten: (file) => `${file} を更新しました`,
     finished: (targetLabel) => `✅ 完了しました！${targetLabel} は 月栖AI で利用できます。`,
-    docsHint: '`npx yqcode` を再度実行すれば再設定できます。'
+    docsHint: '`npx yueqiai` を再度実行すれば再設定できます。'
   }
 };
 
@@ -306,19 +283,6 @@ const configureCodex = async (lang: Language) => {
     process.exit(0);
   }
 
-  const { model } = await prompts(
-    {
-      type: 'select',
-      name: 'model',
-      message: messages.codexModelPrompt,
-      choices: messages.codexModels,
-      initial: 0
-    },
-    { onCancel: () => onCancel(lang) }
-  );
-
-  const selectedModel = (model as string) || 'gpt-4';
-
   const { apiKey } = await prompts(
     [
       {
@@ -331,6 +295,19 @@ const configureCodex = async (lang: Language) => {
     ],
     { onCancel: () => onCancel(lang) }
   );
+
+  // 添加模型输入
+  const { model } = await prompts(
+    {
+      type: 'text',
+      name: 'model',
+      message: '请输入要使用的模型名称:',
+      initial: 'gpt-5.4-medium'
+    },
+    { onCancel: () => onCancel(lang) }
+  );
+
+  const selectedModel = model || 'gpt-5.4-medium';
 
   const sanitizedApiKey = (apiKey as string).trim();
 
