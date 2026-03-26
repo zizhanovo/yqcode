@@ -28,7 +28,7 @@ type Messages = {
   yes: string;
   no: string;
   codexModelPrompt: string;
-  codexModels: Array<{ value: 'gpt-5' | 'gpt-5-codex'; title: string; description?: string }>;
+  codexModels: Array<{ value: 'gpt-4' | 'gpt-3.5-turbo' | 'claude-3-haiku-20240307' | 'claude-3-sonnet-20240229'; title: string; description?: string }>;
   apiKeyPrompt: string;
   apiKeyHint: string;
   apiKeyValidation: string;
@@ -43,13 +43,13 @@ type Messages = {
   docsHint: string;
 };
 
-const API_KEY_URL = 'https://www.ohmygpt.com/apis/keys';
-const CODEX_BASE_URL = 'https://apic1.ohmycdn.com/api/v1/ai/openai/codex-omg/v1';
-const CLAUDE_BASE_URL_DEFAULT = 'https://apic1.ohmycdn.com/api/v1/ai/openai/cc-omg/';
+const API_KEY_URL = 'https://zizhanai.com/user';
+const CODEX_BASE_URL = 'https://zizhanai.com/v1';
+const CLAUDE_BASE_URL_DEFAULT = 'https://zizhanai.com/v1';
 
 const TRANSLATIONS: Record<Language, Messages> = {
   en: {
-    welcome: '🚀  Ready to wire CodeX or Claude Code to OhMyGPT? Let\'s get your CLI in shape.',
+    welcome: '🚀 Ready to wire CodeX or Claude Code to 月栖AI? Let\'s get your CLI in shape.',
     languagePrompt: 'Select the language for this setup wizard',
     languageChoices: [
       { value: 'en', title: 'English (Default)' },
@@ -66,18 +66,20 @@ const TRANSLATIONS: Record<Language, Messages> = {
     installSuccess: 'Installation check completed.',
     installFailed: 'Installation failed. Please review the errors above and run the wizard again.',
     confirmOverwrite:
-      'We will backup your current configuration (.bak files) and write the OhMyGPT settings. Continue?',
+      'We will backup your current configuration (.bak files) and write the 月栖AI settings. Continue?',
     declineOverwrite: 'Understood. No files were touched.',
     installConfirm: (command) => `Run ${command} now to ensure you have the latest release?`,
     installSkipped: 'Skipped installation. We\'ll use the version already on your machine.',
     yes: 'Yes',
     no: 'No',
-    codexModelPrompt: 'Pick the default CodeX model to set in config.toml',
+    codexModelPrompt: 'Pick the default model to set in config.toml',
     codexModels: [
-      { value: 'gpt-5-codex', title: 'gpt-5-codex (latest, optimized for coding - recommended)' },
-      { value: 'gpt-5', title: 'gpt-5 (general purpose)' }
+      { value: 'gpt-4', title: 'gpt-4 (latest, optimized for coding - recommended)' },
+      { value: 'gpt-3.5-turbo', title: 'gpt-3.5-turbo (general purpose)' },
+      { value: 'claude-3-haiku-20240307', title: 'claude-3-haiku-20240307 (fastest, economical)' },
+      { value: 'claude-3-sonnet-20240229', title: 'claude-3-sonnet-20240229 (balanced performance)' }
     ],
-    apiKeyPrompt: `Paste your OhMyGPT API key (open ${API_KEY_URL} if you need to create one)`,
+    apiKeyPrompt: `Paste your 月栖AI API key (open ${API_KEY_URL} if you need to create one)`,
     apiKeyHint: 'Your API key is stored locally on this device only.',
     apiKeyValidation: 'Please enter a non-empty API key.',
     claudeBaseUrlPrompt: 'Enter the Claude Code base URL to use',
@@ -87,11 +89,11 @@ const TRANSLATIONS: Record<Language, Messages> = {
     backupDone: (file) => `Backup saved: ${file}`,
     noBackupNeeded: (file) => `No existing file found at ${file}.`,
     configWritten: (file) => `Updated ${file}`,
-    finished: (targetLabel) => `✅  All done! ${targetLabel} is now configured for OhMyGPT.`,
-    docsHint: 'Tip: run `npx omgvibe` anytime you want to switch setups again.'
+    finished: (targetLabel) => `✅ All done! ${targetLabel} is now configured for 月栖AI.`,
+    docsHint: 'Tip: run `npx yqcode` anytime you want to switch setups again.'
   },
   zh: {
-    welcome: '🚀  开始把 CodeX 或 Claude Code 接入 OhMyGPT，一起完成配置吧。',
+    welcome: '🚀 开始把 CodeX 或 Claude Code 接入 月栖AI，一起完成配置吧。',
     languagePrompt: '请选择向导语言',
     languageChoices: [
       { value: 'en', title: 'English (默认英语)' },
@@ -113,12 +115,14 @@ const TRANSLATIONS: Record<Language, Messages> = {
     installSkipped: '已跳过安装，将使用你当前的 CLI 版本。',
     yes: '是',
     no: '否',
-    codexModelPrompt: '请选择 CodeX 默认模型（写入 config.toml）',
+    codexModelPrompt: '请选择默认模型（写入 config.toml）',
     codexModels: [
-      { value: 'gpt-5-codex', title: 'gpt-5-codex（最新，面向 CodeX 场景优化，推荐）' },
-      { value: 'gpt-5', title: 'gpt-5（通用模型）' }
+      { value: 'gpt-4', title: 'gpt-4（最新，面向 CodeX 场景优化，推荐）' },
+      { value: 'gpt-3.5-turbo', title: 'gpt-3.5-turbo（通用模型）' },
+      { value: 'claude-3-haiku-20240307', title: 'claude-3-haiku-20240307（最快，经济实惠）' },
+      { value: 'claude-3-sonnet-20240229', title: 'claude-3-sonnet-20240229（平衡性能）' }
     ],
-    apiKeyPrompt: `请输入你的 OhMyGPT API Key（如需创建，请访问 ${API_KEY_URL}）`,
+    apiKeyPrompt: `请输入你的 月栖AI API Key（如需创建，请访问 ${API_KEY_URL}）`,
     apiKeyHint: '密钥只会保存在本机。',
     apiKeyValidation: 'API Key 不能为空。',
     claudeBaseUrlPrompt: '请输入 Claude Code 的 Base URL',
@@ -128,11 +132,11 @@ const TRANSLATIONS: Record<Language, Messages> = {
     backupDone: (file) => `已备份：${file}`,
     noBackupNeeded: (file) => `未在 ${file} 发现历史文件。`,
     configWritten: (file) => `已更新 ${file}`,
-    finished: (targetLabel) => `✅  完成！${targetLabel} 已配置为使用 OhMyGPT。`,
-    docsHint: '提示：再次执行 `npx omgvibe` 可以重新配置。'
+    finished: (targetLabel) => `✅ 完成！${targetLabel} 已配置为使用 月栖AI。`,
+    docsHint: '提示：再次执行 `npx yqcode` 可以重新配置。'
   },
   ja: {
-    welcome: '🚀  CodeX または Claude Code を OhMyGPT へ接続します。セットアップを始めましょう。',
+    welcome: '🚀 CodeX または Claude Code を 月栖AI へ接続します。セットアップを始めましょう。',
     languagePrompt: 'ウィザードで使用する言語を選択してください',
     languageChoices: [
       { value: 'en', title: 'English (デフォルト)' },
@@ -148,18 +152,20 @@ const TRANSLATIONS: Record<Language, Messages> = {
     startInstall: (command) => `${command} を実行し、最新バージョンが入っているか確認します…`,
     installSuccess: 'インストール確認が完了しました。',
     installFailed: 'インストールに失敗しました。ログを確認してから再実行してください。',
-    confirmOverwrite: '既存の設定を .bak にバックアップしてから OhMyGPT 設定を書き込みます。続行しますか？',
+    confirmOverwrite: '既存の設定を .bak にバックアップしてから 月栖AI 設定を書き込みます。続行しますか？',
     declineOverwrite: '了解しました。何も変更していません。',
     installConfirm: (command) => `${command} を今すぐ実行して最新版に更新しますか？`,
     installSkipped: 'インストールをスキップしました。現在の CLI バージョンを使用します。',
     yes: 'はい',
     no: 'いいえ',
-    codexModelPrompt: 'config.toml に設定する CodeX のデフォルトモデルを選択してください',
+    codexModelPrompt: 'config.toml に設定するデフォルトモデルを選択してください',
     codexModels: [
-      { value: 'gpt-5-codex', title: 'gpt-5-codex（最新・コード向け最適化 推奨）' },
-      { value: 'gpt-5', title: 'gpt-5（汎用モデル）' }
+      { value: 'gpt-4', title: 'gpt-4（最新・コード向け最適化 推奨）' },
+      { value: 'gpt-3.5-turbo', title: 'gpt-3.5-turbo（汎用モデル）' },
+      { value: 'claude-3-haiku-20240307', title: 'claude-3-haiku-20240307（高速・経済的）' },
+      { value: 'claude-3-sonnet-20240229', title: 'claude-3-sonnet-20240229（バランス性能）' }
     ],
-    apiKeyPrompt: `OhMyGPT の API Key を入力してください（必要なら ${API_KEY_URL} で作成できます）`,
+    apiKeyPrompt: `月栖AI の API Key を入力してください（必要なら ${API_KEY_URL} で作成できます）`,
     apiKeyHint: 'キーはこの端末にのみ保存されます。',
     apiKeyValidation: 'API Key を入力してください。',
     claudeBaseUrlPrompt: 'Claude Code で使用する Base URL を入力してください',
@@ -169,8 +175,8 @@ const TRANSLATIONS: Record<Language, Messages> = {
     backupDone: (file) => `バックアップ完了: ${file}`,
     noBackupNeeded: (file) => `${file} に既存ファイルはありませんでした。`,
     configWritten: (file) => `${file} を更新しました`,
-    finished: (targetLabel) => `✅  完了しました！${targetLabel} は OhMyGPT で利用できます。`,
-    docsHint: '`npx omgvibe` を再度実行すれば再設定できます。'
+    finished: (targetLabel) => `✅ 完了しました！${targetLabel} は 月栖AI で利用できます。`,
+    docsHint: '`npx yqcode` を再度実行すれば再設定できます。'
   }
 };
 
@@ -311,7 +317,7 @@ const configureCodex = async (lang: Language) => {
     { onCancel: () => onCancel(lang) }
   );
 
-  const selectedModel = (model as 'gpt-5' | 'gpt-5-codex') || 'gpt-5-codex';
+  const selectedModel = (model as string) || 'gpt-4';
 
   const { apiKey } = await prompts(
     [
@@ -348,7 +354,8 @@ const configureCodex = async (lang: Language) => {
     console.log(kleur.gray(messages.noBackupNeeded(authPath)));
   }
 
-  const configContent = `model_provider = "omg"\nmodel = "${selectedModel}"\nmodel_reasoning_effort = "high"\ndisable_response_storage = true\npreferred_auth_method = "apikey"\n\n[model_providers.omg]\nname = "omg"\nbase_url = "${CODEX_BASE_URL}"\nwire_api = "responses"\n`;
+  // New-API compatible config
+  const configContent = `model_provider = "openai"\nmodel = "${selectedModel}"\nmodel_reasoning_effort = "high"\ndisable_response_storage = true\npreferred_auth_method = "apikey"\n\n[model_providers.openai]\nname = "openai"\nbase_url = "${CODEX_BASE_URL}"\nwire_api = "chat_completions"\n`;
 
   const authContent = JSON.stringify({ OPENAI_API_KEY: sanitizedApiKey }, null, 2) + '\n';
 
