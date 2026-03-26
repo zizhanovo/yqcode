@@ -295,19 +295,23 @@ const configureCodex = async (lang: Language) => {
     ],
     { onCancel: () => onCancel(lang) }
   );
-
-  // 添加模型输入
+  // 添加模型选择
   const { model } = await prompts(
     {
-      type: 'text',
-      name: 'model',
-      message: '请输入要使用的模型名称:',
-      initial: 'gpt-5.4-medium'
+      type: "select",
+      name: "model",
+      message: "请选择要使用的 Codex 模型:",
+      choices: [
+        { value: "gpt-5.3-codex", title: "gpt-5.3-codex (最新, 推荐)" },
+        { value: "gpt-5.2-codex", title: "gpt-5.2-codex (稳定版)" }
+      ],
+      initial: 0
     },
     { onCancel: () => onCancel(lang) }
   );
 
-  const selectedModel = model || 'gpt-5.4-medium';
+  const selectedModel = model || "gpt-5.3-codex";
+
 
   const sanitizedApiKey = (apiKey as string).trim();
 
@@ -470,7 +474,7 @@ const configureClaude = async (lang: Language) => {
 };
 
 const main = async () => {
-  const defaultLang = detectLanguage();
+  const defaultLang = "zh";
   const initialChoiceIndex = TRANSLATIONS[defaultLang].languageChoices.findIndex(
     (choice) => choice.value === defaultLang
   );
