@@ -355,7 +355,7 @@ const configureCodex = async (lang: Language) => {
   }
 
   // New-API compatible config
-  const configContent = `model_provider = "openai"\nmodel = "${selectedModel}"\nmodel_reasoning_effort = "high"\ndisable_response_storage = true\npreferred_auth_method = "apikey"\n\n[model_providers.openai]\nname = "openai"\nbase_url = "${CODEX_BASE_URL}"\nwire_api = "responses"\n`;
+  const configContent = `model_provider = "yueqiai"\nmodel = "${selectedModel}"\nmodel_reasoning_effort = "high"\ndisable_response_storage = true\npreferred_auth_method = "apikey"\n\n[model_providers.yueqiai]\nname = "openai"\nbase_url = "${CODEX_BASE_URL}"\nwire_api = "responses"\n`;
 
   const authContent = JSON.stringify({ OPENAI_API_KEY: sanitizedApiKey }, null, 2) + '\n';
 
